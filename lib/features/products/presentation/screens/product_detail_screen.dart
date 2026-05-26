@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:propnex_take_home_test/core/constants/app_strings.dart';
 import 'package:propnex_take_home_test/core/theme/app_theme.dart';
 import 'package:propnex_take_home_test/core/utils/extensions.dart';
@@ -7,7 +8,7 @@ import 'package:share_plus/share_plus.dart';
 
 import 'package:propnex_take_home_test/features/products/presentation/providers/product_providers.dart';
 import 'package:propnex_take_home_test/features/products/presentation/widgets/product_form_dialog.dart';
-import 'package:propnex_take_home_test/features/favorites/presentation/providers/favorite_provider.dart';
+import 'package:propnex_take_home_test/features/favorites/presentation/providers/favorite_providers.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   static const routeName = '/product-detail';
@@ -29,7 +30,7 @@ class ProductDetailScreen extends StatelessWidget {
           body: CustomScrollView(
             slivers: [
               SliverAppBar(
-                expandedHeight: 280,
+                expandedHeight: 280.h,
                 pinned: true,
                 actions: [
                   Consumer<FavoritesProvider>(
@@ -80,9 +81,9 @@ class ProductDetailScreen extends StatelessWidget {
                         color: Theme.of(
                           context,
                         ).colorScheme.surfaceContainerHighest,
-                        child: const Icon(
+                        child: Icon(
                           Icons.image_not_supported_outlined,
-                          size: 64,
+                          size: 64.sp,
                         ),
                       ),
                     ),
@@ -91,7 +92,7 @@ class ProductDetailScreen extends StatelessWidget {
               ),
               SliverToBoxAdapter(
                 child: Padding(
-                  padding: const EdgeInsets.all(20),
+                  padding: EdgeInsets.all(20.r),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -100,24 +101,31 @@ class ProductDetailScreen extends StatelessWidget {
                         labelStyle: context.textTheme.labelSmall?.copyWith(
                           color: context.colorScheme.primary,
                           letterSpacing: 0.5,
+                          fontSize: 11.sp,
                         ),
                         backgroundColor: context.colorScheme.primaryContainer,
                         padding: EdgeInsets.zero,
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        product.title,
-                        style: Theme.of(context).textTheme.headlineSmall
-                            ?.copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'by ${product.brand}',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.r),
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 8.h),
+                      Text(
+                        product.title,
+                        style: context.textTheme.headlineSmall?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24.sp,
+                        ),
+                      ),
+                      SizedBox(height: 4.h),
+                      Text(
+                        'by ${product.brand}',
+                        style: context.textTheme.bodyMedium?.copyWith(
+                          color: context.colorScheme.onSurfaceVariant,
+                          fontSize: 14.sp,
+                        ),
+                      ),
+                      SizedBox(height: 16.h),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.baseline,
                         textBaseline: TextBaseline.alphabetic,
@@ -127,79 +135,82 @@ class ProductDetailScreen extends StatelessWidget {
                             style: context.textTheme.headlineMedium?.copyWith(
                               color: context.colorScheme.primary,
                               fontWeight: FontWeight.bold,
+                              fontSize: 28.sp,
                             ),
                           ),
                           if (product.discountPercentage > 0) ...[
-                            const SizedBox(width: 10),
+                            SizedBox(width: 10.w),
                             Text(
-                              '\$${product.price.toStringAsFixed(2)}',
-                              style: Theme.of(context).textTheme.titleMedium
-                                  ?.copyWith(
-                                    decoration: TextDecoration.lineThrough,
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.outline,
-                                  ),
+                              product.price.toCurrency(),
+                              style: context.textTheme.titleMedium?.copyWith(
+                                decoration: TextDecoration.lineThrough,
+                                color: context.colorScheme.outline,
+                                fontSize: 16.sp,
+                              ),
                             ),
-                            const SizedBox(width: 8),
+                            SizedBox(width: 8.w),
                             Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 3,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 8.w,
+                                vertical: 3.h,
                               ),
                               decoration: BoxDecoration(
                                 color: context.colorScheme.errorContainer,
-                                borderRadius: BorderRadius.circular(6),
+                                borderRadius: BorderRadius.circular(6.r),
                               ),
                               child: Text(
                                 '-${product.discountPercentage.toStringAsFixed(0)}% OFF',
                                 style: context.textTheme.labelSmall?.copyWith(
                                   color: context.colorScheme.error,
                                   fontWeight: FontWeight.bold,
+                                  fontSize: 12.sp,
                                 ),
                               ),
                             ),
                           ],
                         ],
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16.h),
                       _StatsRow(product: product),
-                      const SizedBox(height: 20),
+                      SizedBox(height: 20.h),
                       Text(
                         'Description',
                         style: context.textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
+                          fontSize: 16.sp,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8.h),
                       Text(
                         product.description,
                         style: context.textTheme.bodyMedium?.copyWith(
                           height: 1.6,
                           color: context.colorScheme.onSurfaceVariant,
+                          fontSize: 14.sp,
                         ),
                       ),
-                      const SizedBox(height: 24),
+                      SizedBox(height: 24.h),
                       if (product.images.isNotEmpty) ...[
                         Text(
                           'Gallery',
-                          style: Theme.of(context).textTheme.titleMedium
-                              ?.copyWith(fontWeight: FontWeight.bold),
+                          style: context.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.sp,
+                          ),
                         ),
-                        const SizedBox(height: 12),
+                        SizedBox(height: 12.h),
                         SizedBox(
-                          height: 100,
+                          height: 100.h,
                           child: ListView.separated(
                             scrollDirection: Axis.horizontal,
                             itemCount: product.images.length,
-                            separatorBuilder: (_, _) =>
-                                const SizedBox(width: 8),
+                            separatorBuilder: (_, _) => SizedBox(width: 8.w),
                             itemBuilder: (_, i) => ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(8.r),
                               child: Image.network(
                                 product.images[i],
-                                width: 100,
-                                height: 100,
+                                width: 100.w,
+                                height: 100.h,
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -279,10 +290,10 @@ class _StatsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(12),
+        color: context.colorScheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(12.r),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -305,7 +316,7 @@ class _StatsRow extends StatelessWidget {
           _Divider(),
           _Stat(
             icon: Icons.discount_outlined,
-            color: Theme.of(context).colorScheme.error,
+            color: context.colorScheme.error,
             label: 'Discount',
             value: '${product.discountPercentage.toStringAsFixed(0)}%',
           ),
@@ -332,18 +343,20 @@ class _Stat extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Icon(icon, color: color, size: 22),
-        const SizedBox(height: 4),
+        Icon(icon, color: color, size: 22.sp),
+        SizedBox(height: 4.h),
         Text(
           value,
-          style: Theme.of(
-            context,
-          ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+          style: context.textTheme.titleSmall?.copyWith(
+            fontWeight: FontWeight.bold,
+            fontSize: 14.sp,
+          ),
         ),
         Text(
           label,
-          style: Theme.of(context).textTheme.labelSmall?.copyWith(
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
+          style: context.textTheme.labelSmall?.copyWith(
+            color: context.colorScheme.onSurfaceVariant,
+            fontSize: 11.sp,
           ),
         ),
       ],
@@ -355,9 +368,9 @@ class _Divider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 1,
-      height: 40,
-      color: Theme.of(context).colorScheme.outlineVariant,
+      width: 1.w,
+      height: 40.h,
+      color: context.colorScheme.outlineVariant,
     );
   }
 }

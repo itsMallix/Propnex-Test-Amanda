@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:propnex_take_home_test/core/theme/app_theme.dart';
 import 'package:provider/provider.dart';
 
@@ -17,8 +18,8 @@ class ProductFormDialog extends StatefulWidget {
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
       ),
       builder: (_) => ChangeNotifierProvider.value(
         value: context.read<ProductProvider>(),
@@ -125,10 +126,10 @@ class _ProductFormDialogState extends State<ProductFormDialog> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-        left: 20,
-        right: 20,
-        top: 20,
-        bottom: MediaQuery.of(context).viewInsets.bottom + 24,
+        left: 20.w,
+        right: 20.w,
+        top: 20.h,
+        bottom: MediaQuery.of(context).viewInsets.bottom + 24.h,
       ),
       child: Form(
         key: _formKey,
@@ -139,23 +140,24 @@ class _ProductFormDialogState extends State<ProductFormDialog> {
             children: [
               Center(
                 child: Container(
-                  width: 40,
-                  height: 4,
+                  width: 40.w,
+                  height: 4.h,
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.outlineVariant,
-                    borderRadius: BorderRadius.circular(2),
+                    borderRadius: BorderRadius.circular(2.r),
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20.h),
 
               Text(
                 widget.isEditing ? 'Edit Product' : 'Add Product',
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
+                  fontSize: 22.sp,
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20.h),
 
               _field(
                 controller: _titleCtr,
@@ -206,6 +208,7 @@ class _ProductFormDialogState extends State<ProductFormDialog> {
                   ),
                 ],
               ),
+              SizedBox(height: 8.h),
               _field(
                 controller: _brandCtr,
                 label: 'Brand',
@@ -226,21 +229,24 @@ class _ProductFormDialogState extends State<ProductFormDialog> {
                 builder: (_, provider, _) => FilledButton(
                   onPressed: provider.isBusy ? null : _submit,
                   style: FilledButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    padding: EdgeInsets.symmetric(vertical: 14.h),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(12.r),
                     ),
                   ),
                   child: provider.isBusy
-                      ? const SizedBox(
-                          width: 20,
-                          height: 20,
+                      ? SizedBox(
+                          width: 20.w,
+                          height: 20.h,
                           child: CircularProgressIndicator(
-                            strokeWidth: 2.5,
+                            strokeWidth: 2.5.w,
                             color: AppTheme.whiteSpaceColor,
                           ),
                         )
-                      : Text(widget.isEditing ? 'Save Changes' : 'Add Product'),
+                      : Text(
+                          widget.isEditing ? 'Save Changes' : 'Add Product',
+                          style: TextStyle(fontSize: 16.sp),
+                        ),
                 ),
               ),
             ],
@@ -261,7 +267,7 @@ class _ProductFormDialogState extends State<ProductFormDialog> {
     List<TextInputFormatter>? inputFormatters,
   }) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 14),
+      padding: EdgeInsets.only(bottom: 14.h),
       child: TextFormField(
         controller: controller,
         textInputAction: action,
@@ -269,10 +275,14 @@ class _ProductFormDialogState extends State<ProductFormDialog> {
         maxLines: maxLines,
         inputFormatters: inputFormatters,
         validator: validator,
+        style: TextStyle(fontSize: 16.sp),
         decoration: InputDecoration(
           labelText: label,
-          prefixIcon: Icon(icon),
-          border: const OutlineInputBorder(),
+          labelStyle: TextStyle(fontSize: 14.sp),
+          prefixIcon: Icon(icon, size: 20.sp),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8.r),
+          ),
         ),
       ),
     );

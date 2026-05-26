@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:propnex_take_home_test/features/favorites/presentation/providers/favorite_provider.dart';
+import 'package:propnex_take_home_test/features/favorites/presentation/providers/favorite_providers.dart';
 import 'package:propnex_take_home_test/features/favorites/presentation/screens/favorites_screen.dart';
 import 'package:propnex_take_home_test/features/products/presentation/screens/product_screen.dart';
 

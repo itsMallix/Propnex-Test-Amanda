@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:propnex_take_home_test/core/theme/app_theme.dart';
+import 'package:propnex_take_home_test/core/utils/extensions.dart';
 import 'base_provider.dart';
 
 class ViewStateWidget extends StatelessWidget {
@@ -49,30 +51,38 @@ class _DefaultEmptyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            Icons.inbox_outlined,
-            size: 72,
-            color: Theme.of(context).colorScheme.outline,
-          ),
-          const SizedBox(height: 16),
-          Text(
-            'No data found',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              color: Theme.of(context).colorScheme.outline,
+      child: OrientationBuilder(
+        builder: (context, orientation) {
+          return SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.inbox_outlined,
+                  size: 50.sp,
+                  color: context.colorScheme.outline,
+                ),
+                SizedBox(height: 16.h),
+                Text(
+                  'No data found',
+                  style: context.textTheme.titleMedium?.copyWith(
+                    color: context.colorScheme.outline,
+                    fontSize: 16.sp,
+                  ),
+                ),
+                SizedBox(height: 8.h),
+                Text(
+                  'Try a different search or check back later.',
+                  style: context.textTheme.bodySmall?.copyWith(
+                    color: context.colorScheme.outline,
+                    fontSize: 12.sp,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
             ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Try a different search or check back later.',
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: Theme.of(context).colorScheme.outline,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ],
+          );
+        },
       ),
     );
   }
@@ -87,40 +97,47 @@ class _DefaultErrorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              Icons.cloud_off_rounded,
-              size: 72,
-              color: Theme.of(context).colorScheme.error,
+      child: OrientationBuilder(
+        builder: (context, orientation) {
+          return Padding(
+            padding: EdgeInsets.all(24.r),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.cloud_off_rounded,
+                  size: 72.sp,
+                  color: context.colorScheme.error,
+                ),
+                SizedBox(height: 16.h),
+                Text(
+                  'Oops! Something went wrong',
+                  style: context.textTheme.titleMedium?.copyWith(
+                    fontSize: 16.sp,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 8.h),
+                Text(
+                  message.isNotEmpty ? message : 'An unexpected error occurred.',
+                  style: context.textTheme.bodySmall?.copyWith(
+                    color: context.colorScheme.outline,
+                    fontSize: 12.sp,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                if (onRetry != null) ...[
+                  SizedBox(height: 24.h),
+                  FilledButton.icon(
+                    onPressed: onRetry,
+                    icon: Icon(Icons.refresh_rounded, size: 18.sp),
+                    label: Text('Try Again', style: TextStyle(fontSize: 14.sp)),
+                  ),
+                ],
+              ],
             ),
-            const SizedBox(height: 16),
-            Text(
-              'Oops! Something went wrong',
-              style: Theme.of(context).textTheme.titleMedium,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              message.isNotEmpty ? message : 'An unexpected error occurred.',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Theme.of(context).colorScheme.outline,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            if (onRetry != null) ...[
-              const SizedBox(height: 24),
-              FilledButton.icon(
-                onPressed: onRetry,
-                icon: const Icon(Icons.refresh_rounded),
-                label: const Text('Try Again'),
-              ),
-            ],
-          ],
-        ),
+          );
+        },
       ),
     );
   }

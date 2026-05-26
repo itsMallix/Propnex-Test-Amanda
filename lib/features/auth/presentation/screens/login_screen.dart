@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:propnex_take_home_test/core/constants/app_strings.dart';
 import 'package:propnex_take_home_test/core/theme/app_theme.dart';
 import 'package:propnex_take_home_test/core/utils/extensions.dart';
@@ -80,14 +81,14 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+            padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 32.h),
             child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 400),
+              constraints: BoxConstraints(maxWidth: 400.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   _Header(),
-                  const SizedBox(height: 40),
+                  SizedBox(height: 40.h),
                   _LoginForm(
                     formKey: _formKey,
                     usernameCtr: _usernameCtr,
@@ -96,9 +97,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     onTogglePass: () =>
                         setState(() => _obscurePass = !_obscurePass),
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24.h),
                   _SubmitButton(onPressed: _submit),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16.h),
                   _DemoHint(),
                 ],
               ),
@@ -113,27 +114,28 @@ class _LoginScreenState extends State<LoginScreen> {
 class _Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Icon(
           Icons.storefront_rounded,
-          size: 56,
-          color: theme.colorScheme.primary,
+          size: 56.sp,
+          color: context.colorScheme.primary,
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           AppStrings.loginTitle,
           style: context.textTheme.headlineMedium?.copyWith(
             fontWeight: FontWeight.bold,
+            fontSize: 28.sp,
           ),
         ),
-        const SizedBox(height: 6),
+        SizedBox(height: 6.h),
         Text(
           AppStrings.loginSubtitle,
           style: context.textTheme.bodyMedium?.copyWith(
             color: context.colorScheme.onSurfaceVariant,
+            fontSize: 16.sp,
           ),
         ),
       ],
@@ -165,15 +167,20 @@ class _LoginForm extends StatelessWidget {
           TextFormField(
             controller: usernameCtr,
             textInputAction: TextInputAction.next,
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               labelText: 'Username',
+              labelStyle: TextStyle(fontSize: 14.sp),
               hintText: 'e.g. emilys',
-              prefixIcon: Icon(Icons.person_outline_rounded),
-              border: OutlineInputBorder(),
+              hintStyle: TextStyle(fontSize: 14.sp),
+              prefixIcon: Icon(Icons.person_outline_rounded, size: 20.sp),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.r),
+              ),
             ),
+            style: TextStyle(fontSize: 16.sp),
             validator: Validators.username,
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
 
           TextFormField(
             controller: passwordCtr,
@@ -181,17 +188,22 @@ class _LoginForm extends StatelessWidget {
             textInputAction: TextInputAction.done,
             decoration: InputDecoration(
               labelText: 'Password',
-              prefixIcon: const Icon(Icons.lock_outline_rounded),
-              border: const OutlineInputBorder(),
+              labelStyle: TextStyle(fontSize: 14.sp),
+              prefixIcon: Icon(Icons.lock_outline_rounded, size: 20.sp),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.r),
+              ),
               suffixIcon: IconButton(
                 icon: Icon(
                   obscurePass
                       ? Icons.visibility_outlined
                       : Icons.visibility_off_outlined,
+                  size: 20.sp,
                 ),
                 onPressed: onTogglePass,
               ),
             ),
+            style: TextStyle(fontSize: 16.sp),
             validator: Validators.password,
           ),
         ],
@@ -213,24 +225,24 @@ class _SubmitButton extends StatelessWidget {
         return FilledButton(
           onPressed: isLoading ? null : onPressed,
           style: FilledButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 16),
+            padding: EdgeInsets.symmetric(vertical: 16.h),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
           ),
           child: isLoading
               ? SizedBox(
-                  width: 22,
-                  height: 22,
+                  width: 22.w,
+                  height: 22.h,
                   child: CircularProgressIndicator(
-                    strokeWidth: 2.5,
+                    strokeWidth: 2.5.w,
                     color: AppTheme.whiteSpaceColor,
                   ),
                 )
-              : const Text(
+              : Text(
                   AppStrings.loginButton,
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -244,24 +256,25 @@ class _DemoHint extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.all(12.r),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(8),
+        color: context.colorScheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(8.r),
       ),
       child: Row(
         children: [
           Icon(
             Icons.info_outline_rounded,
-            size: 16,
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
+            size: 16.sp,
+            color: context.colorScheme.onSurfaceVariant,
           ),
-          const SizedBox(width: 8),
+          SizedBox(width: 8.w),
           Expanded(
             child: Text(
               'Demo: username "emilys" / password "emilyspass"',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              style: context.textTheme.bodySmall?.copyWith(
+                color: context.colorScheme.onSurfaceVariant,
+                fontSize: 12.sp,
               ),
             ),
           ),

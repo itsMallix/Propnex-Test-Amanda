@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:propnex_take_home_test/core/theme/app_theme.dart';
 import 'package:provider/provider.dart';
 
@@ -10,7 +11,7 @@ import 'package:propnex_take_home_test/features/products/presentation/widgets/pr
 import 'package:propnex_take_home_test/features/products/presentation/widgets/product_form_dialog.dart';
 import 'package:propnex_take_home_test/features/products/presentation/widgets/product_skeleton.dart';
 import 'package:propnex_take_home_test/features/products/presentation/screens/product_detail_screen.dart';
-import 'package:propnex_take_home_test/features/favorites/presentation/providers/favorite_provider.dart';
+import 'package:propnex_take_home_test/features/favorites/presentation/providers/favorite_providers.dart';
 
 class ProductScreen extends StatefulWidget {
   static const routeName = '/products';
@@ -155,8 +156,10 @@ class _ProductScreenState extends State<ProductScreen> {
           ? TextField(
               controller: _searchCtr,
               autofocus: true,
-              decoration: const InputDecoration(
+              style: TextStyle(fontSize: 16.sp),
+              decoration: InputDecoration(
                 hintText: 'Search products…',
+                hintStyle: TextStyle(fontSize: 16.sp),
                 border: InputBorder.none,
                 isDense: true,
               ),
@@ -225,19 +228,19 @@ class _ProductListView extends StatelessWidget {
 
     return ListView.builder(
       controller: scrollCtr,
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 100),
+      padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 100.h),
       itemCount: itemCount,
       itemBuilder: (_, index) {
         if (index == products.length) {
-          return const Padding(
-            padding: EdgeInsets.symmetric(vertical: 24),
-            child: Center(child: CircularProgressIndicator()),
+          return Padding(
+            padding: EdgeInsets.symmetric(vertical: 24.h),
+            child: const Center(child: CircularProgressIndicator()),
           );
         }
 
         final product = products[index];
         return Padding(
-          padding: const EdgeInsets.only(bottom: 10),
+          padding: EdgeInsets.only(bottom: 10.h),
           child: Dismissible(
             key: ValueKey(product.id),
             direction: DismissDirection.endToStart,
@@ -290,14 +293,15 @@ class _DeleteBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.centerRight,
-      padding: const EdgeInsets.only(right: 20),
+      padding: EdgeInsets.only(right: 20.w),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.errorContainer,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(12.r),
       ),
       child: Icon(
         Icons.delete_rounded,
         color: Theme.of(context).colorScheme.error,
+        size: 24.sp,
       ),
     );
   }
