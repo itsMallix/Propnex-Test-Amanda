@@ -23,7 +23,7 @@ class FavoritesScreen extends StatelessWidget {
     for (final fav in favorites) {
       final p = fav.product;
       buffer.writeln(
-        '• ${p.title} — \$${p.discountedPrice.toStringAsFixed(2)} ⭐${p.rating}',
+        '• ${p.title} — ${p.discountedPrice.toCurrency()} ⭐${p.rating}\n  Link: ${p.thumbnail}',
       );
     }
     Share.share(buffer.toString(), subject: 'My Favorite Products');

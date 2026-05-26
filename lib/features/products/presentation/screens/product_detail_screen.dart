@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 import 'package:propnex_take_home_test/features/products/presentation/providers/product_providers.dart';
+import 'package:propnex_take_home_test/features/products/domain/entities/product.dart';
 import 'package:propnex_take_home_test/features/products/presentation/widgets/product_form_dialog.dart';
 import 'package:propnex_take_home_test/features/favorites/presentation/providers/favorite_providers.dart';
 
@@ -228,16 +229,17 @@ class ProductDetailScreen extends StatelessWidget {
     );
   }
 
-  void _shareProduct(dynamic product) {
-    final text =
-        '''
+  void _shareProduct(Product product) {
+    final text = '''
 🛍️ ${product.title}
 💰 ${product.discountedPrice.toCurrency()}
 ⭐ ${product.rating} · ${product.category.capitalize()}
 
 ${product.description}
+
+Link: ${product.thumbnail}
 ''';
-    Share.share(text, subject: product.title as String);
+    Share.share(text, subject: product.title);
   }
 
   Future<void> _confirmDelete(

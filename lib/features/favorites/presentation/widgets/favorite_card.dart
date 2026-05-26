@@ -20,7 +20,7 @@ class FavoriteCard extends StatelessWidget {
 
   void _share(Product p) {
     Share.share(
-      '🛍️ ${p.title}\n💰 \$${p.discountedPrice.toStringAsFixed(2)}\n⭐ ${p.rating}\n\n${p.description}',
+      '🛍️ ${p.title}\n💰 ${p.discountedPrice.toCurrency()}\n⭐ ${p.rating}\n\n${p.description}\n\nLink: ${p.thumbnail}',
       subject: p.title,
     );
   }
