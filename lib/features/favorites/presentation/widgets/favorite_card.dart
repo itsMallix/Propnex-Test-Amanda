@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:propnex_take_home_test/core/theme/app_theme.dart';
+import 'package:propnex_take_home_test/core/utils/extensions.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:propnex_take_home_test/features/products/domain/entities/product.dart';
 import 'package:propnex_take_home_test/features/favorites/domain/entities/favorite.dart';
@@ -25,88 +27,96 @@ class FavoriteCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final product = favorite.product;
 
     return Card(
       clipBehavior: Clip.antiAlias,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.r),
+      ),
       child: InkWell(
         onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.all(12),
+          padding: EdgeInsets.all(12.r),
           child: Row(
             children: [
               Hero(
                 tag: 'fav-product-${product.id}',
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(8.r),
                   child: Image.network(
                     product.thumbnail,
-                    width: 68,
-                    height: 68,
+                    width: 68.w,
+                    height: 68.h,
                     fit: BoxFit.cover,
                     errorBuilder: (_, _, _) => Container(
-                      width: 68,
-                      height: 68,
-                      color: theme.colorScheme.surfaceContainerHighest,
+                      width: 68.w,
+                      height: 68.h,
+                      color: context.colorScheme.surfaceContainerHighest,
                       child: Icon(
                         Icons.image_not_supported_outlined,
-                        color: theme.colorScheme.outline,
+                        color: context.colorScheme.outline,
+                        size: 24.sp,
                       ),
                     ),
                   ),
                 ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      product.title,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w600,
+                      Text(
+                        product.title,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: context.textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14.sp,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      product.category.toUpperCase(),
-                      style: theme.textTheme.labelSmall?.copyWith(
-                        color: theme.colorScheme.primary,
-                        letterSpacing: 0.5,
+                      SizedBox(height: 4.h),
+                      Text(
+                        product.category.toUpperCase(),
+                        style: context.textTheme.labelSmall?.copyWith(
+                          color: context.colorScheme.primary,
+                          letterSpacing: 0.5,
+                          fontSize: 10.sp,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 4),
+                      SizedBox(height: 4.h),
                     Row(
                       children: [
                         Text(
-                          '\$${product.discountedPrice.toStringAsFixed(2)}',
-                          style: theme.textTheme.titleSmall?.copyWith(
-                            color: theme.colorScheme.primary,
+                          product.discountedPrice.toCurrency(),
+                          style: context.textTheme.titleSmall?.copyWith(
+                            color: context.colorScheme.primary,
                             fontWeight: FontWeight.bold,
+                            fontSize: 14.sp,
                           ),
                         ),
-                        const SizedBox(width: 6),
+                        SizedBox(width: 6.w),
                         Icon(
                           Icons.star_rounded,
-                          size: 13,
+                          size: 13.sp,
                           color: AppTheme.warningColor,
                         ),
-                        const SizedBox(width: 2),
+                        SizedBox(width: 2.w),
                         Text(
                           product.rating.toStringAsFixed(1),
-                          style: theme.textTheme.bodySmall,
+                          style: context.textTheme.bodySmall?.copyWith(
+                            fontSize: 12.sp,
+                          ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 2),
+                    SizedBox(height: 2.h),
                     Text(
                       'Added ${_formatDate(favorite.addedAt)}',
-                      style: theme.textTheme.labelSmall?.copyWith(
-                        color: theme.colorScheme.outline,
+                      style: context.textTheme.labelSmall?.copyWith(
+                        color: context.colorScheme.outline,
+                        fontSize: 10.sp,
                       ),
                     ),
                   ],
@@ -116,17 +126,22 @@ class FavoriteCard extends StatelessWidget {
                 children: [
                   IconButton(
                     tooltip: 'Share',
-                    icon: const Icon(Icons.share_rounded, size: 20),
+                    icon: Icon(Icons.share_rounded, size: 20.sp),
                     onPressed: () => _share(product),
+                    constraints: const BoxConstraints(),
+                    padding: EdgeInsets.zero,
                   ),
+                  SizedBox(height: 8.h),
                   IconButton(
                     tooltip: 'Remove favorite',
                     icon: Icon(
                       Icons.favorite_rounded,
-                      size: 20,
+                      size: 20.sp,
                       color: AppTheme.errorColor,
                     ),
                     onPressed: onRemove,
+                    constraints: const BoxConstraints(),
+                    padding: EdgeInsets.zero,
                   ),
                 ],
               ),

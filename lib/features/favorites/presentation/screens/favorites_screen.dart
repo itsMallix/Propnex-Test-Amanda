@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:propnex_take_home_test/features/main/presentation/screens/main_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:propnex_take_home_test/core/utils/extensions.dart';
 import 'package:propnex_take_home_test/core/providers/view_state_widget.dart';
 import 'package:propnex_take_home_test/features/products/presentation/providers/product_providers.dart';
 import 'package:propnex_take_home_test/features/products/presentation/screens/product_detail_screen.dart';
-import 'package:propnex_take_home_test/features/favorites/presentation/providers/favorite_provider.dart';
+import 'package:propnex_take_home_test/features/favorites/presentation/providers/favorite_providers.dart';
 import 'package:propnex_take_home_test/features/favorites/presentation/widgets/favorite_card.dart';
 
 class FavoritesScreen extends StatelessWidget {
@@ -178,14 +180,14 @@ class _FavoritesList extends StatelessWidget {
     final favorites = provider.favorites;
 
     return ListView.builder(
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+      padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 24.h),
       itemCount: favorites.length,
       itemBuilder: (_, index) {
         final fav = favorites[index];
         final product = fav.product;
 
         return Padding(
-          padding: const EdgeInsets.only(bottom: 10),
+          padding: EdgeInsets.only(bottom: 10.h),
           child: Dismissible(
             key: ValueKey(product.id),
             direction: DismissDirection.endToStart,
@@ -208,24 +210,25 @@ class _RemoveBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.centerRight,
-      padding: const EdgeInsets.only(right: 20),
+      padding: EdgeInsets.only(right: 20.w),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.errorContainer,
-        borderRadius: BorderRadius.circular(12),
+        color: context.colorScheme.errorContainer,
+        borderRadius: BorderRadius.circular(12.r),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
             Icons.favorite_border_rounded,
-            color: Theme.of(context).colorScheme.error,
+            color: context.colorScheme.error,
+            size: 24.sp,
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4.h),
           Text(
             'Remove',
             style: TextStyle(
-              color: Theme.of(context).colorScheme.error,
-              fontSize: 11,
+              color: context.colorScheme.error,
+              fontSize: 11.sp,
             ),
           ),
         ],
@@ -240,47 +243,58 @@ class _EmptyFavorites extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          TweenAnimationBuilder<double>(
-            tween: Tween(begin: 0.8, end: 1.0),
-            duration: const Duration(milliseconds: 600),
-            curve: Curves.elasticOut,
-            builder: (_, scale, child) =>
-                Transform.scale(scale: scale, child: child),
-            child: Icon(
-              Icons.favorite_border_rounded,
-              size: 80,
-              color: Theme.of(context).colorScheme.outline,
+      child: OrientationBuilder(
+        builder: (context, orientation) {
+          return SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TweenAnimationBuilder<double>(
+                  tween: Tween(begin: 0.8, end: 1.0),
+                  duration: const Duration(milliseconds: 600),
+                  curve: Curves.elasticOut,
+                  builder: (_, scale, child) =>
+                      Transform.scale(scale: scale, child: child),
+                  child: Icon(
+                    Icons.favorite_border_rounded,
+                    size: 80.sp,
+                    color: context.colorScheme.outline,
+                  ),
+                ),
+                SizedBox(height: 20.h),
+                Text(
+                  'No favorites yet',
+                  style: context.textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22.sp,
+                  ),
+                ),
+                SizedBox(height: 8.h),
+                Text(
+                  'Tap the love icons on any product\nto save it here.',
+                  textAlign: TextAlign.center,
+                  style: context.textTheme.bodyMedium?.copyWith(
+                    color: context.colorScheme.onSurfaceVariant,
+                    height: 1.5,
+                    fontSize: 14.sp,
+                  ),
+                ),
+                SizedBox(height: 28.h),
+                FilledButton.tonal(
+                  onPressed: () => Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => const MainScreen(),
+                    ),
+                  ),
+                  child: Text(
+                    'Browse Products',
+                    style: TextStyle(fontSize: 14.sp),
+                  ),
+                ),
+              ],
             ),
-          ),
-          const SizedBox(height: 20),
-          Text(
-            'No favorites yet',
-            style: Theme.of(
-              context,
-            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Tap the love icons on any product\nto save it here.',
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
-              height: 1.5,
-            ),
-          ),
-          const SizedBox(height: 28),
-          FilledButton.tonal(
-            onPressed: () => Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (context) => MainScreen(),
-              ),
-            ),
-            child: const Text('Browse Products'),
-          ),
-        ],
+          );
+        },
       ),
     );
   }
