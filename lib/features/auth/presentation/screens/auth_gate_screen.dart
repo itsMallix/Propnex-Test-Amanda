@@ -11,7 +11,7 @@ class AuthGate extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<AuthProvider>(
       builder: (context, auth, _) {
-        if (auth.isIdle || auth.isLoading) {
+        if (auth.isLoading) {
           return const Scaffold(
             body: Center(child: CircularProgressIndicator()),
           );

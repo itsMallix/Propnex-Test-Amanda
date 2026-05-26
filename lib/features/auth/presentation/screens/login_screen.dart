@@ -23,14 +23,9 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordCtr = TextEditingController();
   bool _obscurePass = true;
 
-  static const _demoUsername = 'emilys';
-  static const _demoPassword = 'emilyspass';
-
   @override
   void initState() {
     super.initState();
-    _usernameCtr.text = _demoUsername;
-    _passwordCtr.text = _demoPassword;
   }
 
   @override
@@ -271,7 +266,7 @@ class _DemoHint extends StatelessWidget {
           SizedBox(width: 8.w),
           Expanded(
             child: Text(
-              'Demo: username "emilys" / password "emilyspass"',
+              'account: username "emilys" / password "emilyspass"',
               style: context.textTheme.bodySmall?.copyWith(
                 color: context.colorScheme.onSurfaceVariant,
                 fontSize: 12.sp,

@@ -22,10 +22,8 @@ class AuthProvider extends BaseProvider {
     final saved = await _repository.getSavedUser();
     if (saved != null) {
       _currentUser = saved;
-      setLoaded();
-    } else {
-      setIdle();
     }
+    setLoaded();
   }
 
   Future<bool> login({

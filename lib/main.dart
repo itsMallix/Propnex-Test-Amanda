@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Propnex Take Home Test',
             theme: AppTheme.theme,
-            home: const AuthGate(),
+            home: AuthGate(),
             routes: {
               LoginScreen.routeName: (_) => const LoginScreen(),
               MainScreen.routeName: (_) => const MainScreen(),
