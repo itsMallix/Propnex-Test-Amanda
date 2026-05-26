@@ -1,8 +1,8 @@
-import '../../../../core/providers/base_provider.dart';
-import '../../data/repositories/auth_repository_impl.dart';
-import '../../domain/entities/user.dart';
-import '../../domain/repositories/auth_repository.dart';
-import '../../domain/usecases/login_usecase.dart';
+import 'package:propnex_take_home_test/core/providers/base_provider.dart';
+import 'package:propnex_take_home_test/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:propnex_take_home_test/features/auth/domain/entities/user.dart';
+import 'package:propnex_take_home_test/features/auth/domain/repositories/auth_repository.dart';
+import 'package:propnex_take_home_test/features/auth/domain/usecases/login_usecase.dart';
 
 class AuthProvider extends BaseProvider {
   final AuthRepository _repository;
@@ -18,10 +18,6 @@ class AuthProvider extends BaseProvider {
     _tryAutoLogin();
   }
 
-  // ---------------------------------------------------------------------------
-  // Auto-login on cold start
-  // ---------------------------------------------------------------------------
-
   Future<void> _tryAutoLogin() async {
     final saved = await _repository.getSavedUser();
     if (saved != null) {
@@ -31,10 +27,6 @@ class AuthProvider extends BaseProvider {
       setIdle();
     }
   }
-
-  // ---------------------------------------------------------------------------
-  // Login
-  // ---------------------------------------------------------------------------
 
   Future<bool> login({
     required String username,
@@ -51,10 +43,6 @@ class AuthProvider extends BaseProvider {
     });
     return success;
   }
-
-  // ---------------------------------------------------------------------------
-  // Logout
-  // ---------------------------------------------------------------------------
 
   Future<void> logout() async {
     await runBusy(() async {

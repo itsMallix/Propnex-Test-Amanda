@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:propnex_take_home_test/core/constants/app_strings.dart';
+import 'package:propnex_take_home_test/core/theme/app_theme.dart';
+import 'package:propnex_take_home_test/core/utils/extensions.dart';
 import 'package:propnex_take_home_test/core/utils/validators.dart';
 import 'package:propnex_take_home_test/features/auth/presentation/providers/auth_providers.dart';
+import 'package:propnex_take_home_test/features/main/presentation/screens/main_screen.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -18,7 +22,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordCtr = TextEditingController();
   bool _obscurePass = true;
 
-  // DummyJSON demo credentials — pre-fill for convenience during review
   static const _demoUsername = 'emilys';
   static const _demoPassword = 'emilyspass';
 
@@ -36,12 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  // ---------------------------------------------------------------------------
-  // Submit
-  // ---------------------------------------------------------------------------
-
   Future<void> _submit() async {
-    // Dismiss keyboard
     FocusScope.of(context).unfocus();
 
     if (!_formKey.currentState!.validate()) return;
@@ -55,8 +53,9 @@ class _LoginScreenState extends State<LoginScreen> {
     if (!mounted) return;
 
     if (success) {
-      // Navigate to products list, clear back stack
-      Navigator.pushReplacementNamed(context, '/products');
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const MainScreen()),
+      );
     } else {
       _showErrorSnackbar(provider.errorMessage);
     }
@@ -74,10 +73,6 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       );
   }
-
-  // ---------------------------------------------------------------------------
-  // Build
-  // ---------------------------------------------------------------------------
 
   @override
   Widget build(BuildContext context) {
@@ -115,10 +110,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Sub-widgets (private to this file)
-// ---------------------------------------------------------------------------
-
 class _Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -133,16 +124,16 @@ class _Header extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         Text(
-          'Welcome back',
-          style: theme.textTheme.headlineMedium?.copyWith(
+          AppStrings.loginTitle,
+          style: context.textTheme.headlineMedium?.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
         const SizedBox(height: 6),
         Text(
-          'Sign in to continue',
-          style: theme.textTheme.bodyMedium?.copyWith(
-            color: theme.colorScheme.onSurfaceVariant,
+          AppStrings.loginSubtitle,
+          style: context.textTheme.bodyMedium?.copyWith(
+            color: context.colorScheme.onSurfaceVariant,
           ),
         ),
       ],
@@ -171,7 +162,6 @@ class _LoginForm extends StatelessWidget {
       key: formKey,
       child: Column(
         children: [
-          // Username field
           TextFormField(
             controller: usernameCtr,
             textInputAction: TextInputAction.next,
@@ -185,7 +175,6 @@ class _LoginForm extends StatelessWidget {
           ),
           const SizedBox(height: 16),
 
-          // Password field
           TextFormField(
             controller: passwordCtr,
             obscureText: obscurePass,
@@ -230,17 +219,20 @@ class _SubmitButton extends StatelessWidget {
             ),
           ),
           child: isLoading
-              ? const SizedBox(
+              ? SizedBox(
                   width: 22,
                   height: 22,
                   child: CircularProgressIndicator(
                     strokeWidth: 2.5,
-                    color: Colors.white,
+                    color: AppTheme.whiteSpaceColor,
                   ),
                 )
               : const Text(
-                  'Sign In',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  AppStrings.loginButton,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
         );
       },

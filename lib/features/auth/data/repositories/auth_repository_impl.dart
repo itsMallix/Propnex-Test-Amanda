@@ -23,12 +23,10 @@ class AuthRepositoryImpl implements AuthRepository {
   }) async {
     final user = await _remote.login(username: username, password: password);
 
-    // Persist token + user for auto-login
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_keyToken, user.token);
     await prefs.setString(_keyUser, jsonEncode(user.toJson()));
 
-    // Inject token into HttpClient for subsequent requests
     HttpClient().setAuthToken(user.token);
 
     return user;
@@ -50,7 +48,6 @@ class AuthRepositoryImpl implements AuthRepository {
 
     if (raw == null || token == null) return null;
 
-    // Re-inject token so API calls work after cold start
     HttpClient().setAuthToken(token);
     return UserModel.fromJson(jsonDecode(raw) as Map<String, dynamic>);
   }

@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 
-/// Pure domain entity — no JSON logic here.
 class User extends Equatable {
   final int id;
   final String username;

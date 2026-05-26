@@ -1,5 +1,6 @@
-import '../../../../core/network/http_client.dart';
-import '../models/user_model.dart';
+import 'package:propnex_take_home_test/core/constants/api_constants.dart';
+import 'package:propnex_take_home_test/core/network/http_client.dart';
+import 'package:propnex_take_home_test/features/auth/data/models/user_model.dart';
 
 abstract class AuthRemoteDataSource {
   Future<UserModel> login({required String username, required String password});
@@ -16,10 +17,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String username,
     required String password,
   }) async {
-    // POST https://dummyjson.com/auth/login
-    // Returns: { id, username, email, firstName, lastName, image, token, ... }
     final response = await _client.post(
-      '/auth/login',
+      ApiConstants.loginEndpoint,
       body: {
         'username': username,
         'password': password,

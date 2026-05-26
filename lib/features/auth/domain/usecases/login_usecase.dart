@@ -1,5 +1,5 @@
-import '../entities/user.dart';
-import '../repositories/auth_repository.dart';
+import 'package:propnex_take_home_test/features/auth/domain/entities/user.dart';
+import 'package:propnex_take_home_test/features/auth/domain/repositories/auth_repository.dart';
 
 class LoginUseCase {
   final AuthRepository _repository;
