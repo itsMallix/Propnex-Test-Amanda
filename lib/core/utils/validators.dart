@@ -10,8 +10,9 @@ class Validators {
 
   static String? username(String? value) {
     if (value == null || value.trim().isEmpty) return 'Username is required';
-    if (value.trim().length < 3)
+    if (value.trim().length < 3) {
       return 'Username must be at least 3 characters';
+    }
     return null;
   }
 
@@ -48,8 +49,9 @@ class Validators {
     String fieldName = 'This field',
   }) {
     if (value == null || value.trim().isEmpty) return '$fieldName is required';
-    if (value.trim().length < min)
+    if (value.trim().length < min) {
       return '$fieldName must be at least $min characters';
+    }
     return null;
   }
 }

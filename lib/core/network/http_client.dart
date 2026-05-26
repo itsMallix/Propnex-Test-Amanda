@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:propnex_take_home_test/core/constants/api_constants.dart';
 import 'api_exception.dart';
 
 class HttpClient {
-  static const String _baseUrl = 'https://dummyjson.com';
+  static const String _baseUrl = ApiConstants.baseUrl;
   static const Duration _timeout = Duration(seconds: 15);
 
   static final HttpClient _instance = HttpClient._internal();

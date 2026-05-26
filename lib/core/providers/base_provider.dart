@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import '../network/api_exception.dart';
+import 'package:propnex_take_home_test/core/network/api_exception.dart';
 
 enum ViewState {
   idle,
@@ -56,6 +56,7 @@ abstract class BaseProvider extends ChangeNotifier {
     if (showLoading) setLoading();
     try {
       await action();
+      if (isLoading) setLoaded();
     } catch (e) {
       setError(friendlyError(e));
     }
@@ -65,6 +66,7 @@ abstract class BaseProvider extends ChangeNotifier {
     setBusy();
     try {
       await action();
+      if (isBusy) setLoaded();
     } catch (e) {
       setError(friendlyError(e));
     }

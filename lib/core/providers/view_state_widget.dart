@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:propnex_take_home_test/core/theme/app_theme.dart';
 import 'base_provider.dart';
 
 class ViewStateWidget extends StatelessWidget {
@@ -138,7 +139,7 @@ class BusyOverlay extends StatelessWidget {
         child,
         if (isBusy)
           Container(
-            color: Colors.black26,
+            color: AppTheme.blackSpaceColor,
             child: const Center(child: CircularProgressIndicator()),
           ),
       ],
